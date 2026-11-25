@@ -1,0 +1,437 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#FCFBFA">
+  <meta name="description" content="Discover expressive fine perfumery, crafted in Hazyview, Mpumalanga. METTLE AND REDOLENT — THE ART OF EXPRESSION.">
+  <title>METTLE AND REDOLENT — The Art of Expression</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: { porcelain: '#FCFBFA', pearl: '#F3F1ED', ink: '#18181B', saffron: '#EAB308', saffronwash: '#FEF9C3' },
+          fontFamily: { editorial: ['Cormorant Garamond', 'serif'], sans: ['Montserrat', 'sans-serif'] }
+        }
+      }
+    };
+  </script>
+  <style>
+    :root { color-scheme: light; }
+    html { scroll-behavior: smooth; }
+    body { background: #FCFBFA; color: #18181B; font-family: Montserrat, sans-serif; }
+    button, a, input, select, textarea { -webkit-tap-highlight-color: transparent; }
+    .eyebrow { letter-spacing: .18em; }
+    .drawer-backdrop { background: rgb(24 24 27 / .48); }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { scrollbar-width: none; }
+  </style>
+</head>
+<body>
+  <div id="announcement" class="bg-ink px-4 py-2.5 text-center text-[10px] font-semibold uppercase tracking-[.16em] text-white">Crafted in Hazyview • Flat-Rate R150 Courier Nationwide • PayShap Accepted</div>
+  <header class="sticky top-0 z-30 border-b border-black/5 bg-porcelain/95 backdrop-blur">
+    <div class="mx-auto max-w-7xl px-5 lg:px-8">
+      <div class="flex items-center justify-between gap-3 py-4">
+      <a href="#" class="flex min-w-0 items-center gap-3" aria-label="Mettle and Redolent home">
+        <svg viewBox="0 0 48 48" class="h-11 w-11 shrink-0" aria-hidden="true"><path fill="#18181B" d="M5 42V6h9l10 14L34 6h9v36h-9V20L24 34 14 20v22z"/></svg>
+        <span class="min-w-0"><span class="block truncate text-[11px] font-bold uppercase tracking-[.15em] sm:text-xs">Mettle and Redolent</span><span class="mt-1 block text-[8px] uppercase tracking-[.25em] text-zinc-500 sm:text-[9px]">The Art of Expression</span></span>
+      </a>
+      <nav class="hidden items-center gap-7 text-[10px] font-semibold uppercase tracking-[.16em] lg:flex">
+        <a class="transition hover:text-zinc-500" href="#collection">Collection</a>
+        <a class="transition hover:text-zinc-500" href="#craft">Our Craft</a>
+        <a class="transition hover:text-zinc-500" href="#how-to-order">How to Order</a>
+      </nav>
+      <div class="flex shrink-0 items-center gap-2 sm:gap-3">
+        <a id="header-whatsapp" href="https://wa.me/27648072693" target="_blank" rel="noreferrer" class="hidden rounded-xl border border-ink/20 px-4 py-3 text-[9px] font-semibold uppercase tracking-[.14em] transition hover:bg-pearl sm:inline-flex">WhatsApp</a>
+        <button id="bag-open" class="relative rounded-xl bg-ink px-4 py-3 text-[9px] font-semibold uppercase tracking-[.14em] text-white transition hover:bg-zinc-700" aria-label="Open shopping bag">Bag <span id="bag-count" class="ml-1 inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-saffron px-1 text-[9px] text-ink">0</span></button>
+        <button id="mobile-menu-toggle" class="rounded-xl border border-ink/20 p-3 lg:hidden" aria-label="Open navigation menu" aria-expanded="false" aria-controls="mobile-navigation">
+          <svg viewBox="0 0 20 20" class="h-4 w-4" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+        </button>
+      </div>
+      </div>
+      <nav id="mobile-navigation" class="hidden border-t border-black/10 py-3 lg:hidden">
+        <div class="grid grid-cols-2 gap-2 text-[9px] font-semibold uppercase tracking-[.13em]">
+          <a class="rounded-xl px-3 py-3 hover:bg-pearl" href="#collection">Collection</a>
+          <a class="rounded-xl px-3 py-3 hover:bg-pearl" href="#craft">Our Craft</a>
+          <a class="rounded-xl px-3 py-3 hover:bg-pearl" href="#how-to-order">How to Order</a>
+          <a id="mobile-whatsapp" class="rounded-xl px-3 py-3 hover:bg-pearl" href="https://wa.me/27648072693" target="_blank" rel="noreferrer">WhatsApp</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="mx-auto grid max-w-7xl items-center gap-10 px-5 py-12 sm:py-16 lg:grid-cols-[1.02fr_.98fr] lg:gap-16 lg:px-8 lg:py-20">
+      <div class="order-2 max-w-xl lg:order-1">
+        <span class="inline-flex rounded-full bg-saffronwash px-4 py-2 text-[9px] font-semibold uppercase tracking-[.16em] text-ink">Hazyview • Fine Perfumery</span>
+        <h1 class="mt-7 font-editorial text-[3.55rem] leading-[.94] tracking-[-.035em] sm:text-7xl lg:text-[5.5rem]">When You Smell Great,<br><em class="font-medium">You Feel Great.</em></h1>
+        <p class="mt-6 max-w-lg text-sm leading-7 text-zinc-600 sm:text-base">Fragrance is more than a finishing touch. Discover expressive scents, thoughtfully chosen for every version of you — crafted with heart in Hazyview, Mpumalanga.</p>
+        <div class="mt-8 flex flex-wrap gap-3">
+          <a href="#collection" class="rounded-xl bg-ink px-6 py-4 text-[10px] font-semibold uppercase tracking-[.15em] text-white transition hover:bg-zinc-700">Explore Fragrances</a>
+          <a id="hero-whatsapp" href="https://wa.me/27648072693" target="_blank" rel="noreferrer" class="rounded-xl border border-ink/25 px-6 py-4 text-[10px] font-semibold uppercase tracking-[.15em] transition hover:bg-pearl">Ask on WhatsApp</a>
+        </div>
+        <p class="mt-10 text-[9px] font-medium uppercase tracking-[.2em] text-zinc-400">Made to be remembered. Worn to be yourself.</p>
+      </div>
+      <div class="order-1 relative lg:order-2">
+        <div class="absolute -left-3 -top-3 h-24 w-24 rounded-3xl bg-saffronwash sm:-left-5 sm:-top-5"></div>
+        <div class="relative aspect-[4/5] overflow-hidden rounded-3xl bg-pearl">
+          <img id="hero-image" src="https://images.unsplash.com/photo-1594035910387-fea47794261f?auto=format&fit=crop&w=1400&q=90" alt="Fine perfumery bottle in a softly lit studio" class="h-full w-full object-cover">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent"></div>
+          <p class="absolute bottom-6 left-6 text-[9px] font-semibold uppercase tracking-[.22em] text-white">A signature, in every drop</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="collection" class="mx-auto max-w-7xl px-5 py-14 sm:py-20 lg:px-8">
+      <div class="mb-8 flex flex-col justify-between gap-4 sm:mb-10 sm:flex-row sm:items-end">
+        <div><p class="eyebrow text-[9px] font-semibold uppercase text-zinc-500">The collection</p><h2 class="mt-2 font-editorial text-5xl sm:text-6xl">Find your expression.</h2></div>
+        <p class="max-w-sm text-xs leading-6 text-zinc-500">Considered compositions. Lasting impressions. Choose the scent that feels like you.</p>
+      </div>
+      <div id="product-grid" class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3"></div>
+      <p id="products-error" class="mt-5 hidden rounded-2xl bg-saffronwash p-4 text-xs leading-6 text-zinc-700"></p>
+    </section>
+
+    <section id="craft" class="mx-auto max-w-7xl px-5 pb-12 lg:px-8">
+      <div class="grid gap-10 rounded-3xl bg-pearl p-7 sm:p-10 lg:grid-cols-[.8fr_1.2fr] lg:items-center lg:p-14">
+        <div><p class="eyebrow text-[9px] font-semibold uppercase text-zinc-500">Rooted in Hazyview</p><h2 class="mt-3 font-editorial text-5xl leading-[.98] sm:text-6xl">Scent with<br><em>intention.</em></h2></div>
+        <div class="max-w-2xl"><p class="text-sm leading-7 text-zinc-600">METTLE AND REDOLENT is an invitation to express yourself. From Hazyview, Mpumalanga, we bring together memorable fragrances and personal service — helping you find a scent that feels unmistakably your own.</p><p class="mt-4 text-sm leading-7 text-zinc-600">Every order is prepared with care and sent nationwide on a flat-rate courier. Need a recommendation? We are just a WhatsApp message away.</p></div>
+      </div>
+    </section>
+
+    <section id="how-to-order" class="mx-auto max-w-7xl px-5 py-12 sm:py-16 lg:px-8">
+      <div class="text-center"><p class="eyebrow text-[9px] font-semibold uppercase text-zinc-500">A considered checkout</p><h2 class="mt-3 font-editorial text-5xl sm:text-6xl">Three easy steps.</h2></div>
+      <div class="mt-8 grid gap-4 md:grid-cols-3">
+        <article class="rounded-2xl border border-black/5 bg-white p-6"><span class="font-editorial text-4xl">01</span><h3 class="mt-3 text-[10px] font-bold uppercase tracking-[.15em]">Choose your scent</h3><p class="mt-2 text-xs leading-6 text-zinc-500">Explore the collection and add your favourites to your bag.</p></article>
+        <article class="rounded-2xl border border-black/5 bg-white p-6"><span class="font-editorial text-4xl">02</span><h3 class="mt-3 text-[10px] font-bold uppercase tracking-[.15em]">Place your order</h3><p class="mt-2 text-xs leading-6 text-zinc-500">Add your delivery details. Nationwide courier is a flat R150.</p></article>
+        <article class="rounded-2xl border border-black/5 bg-white p-6"><span class="font-editorial text-4xl">03</span><h3 class="mt-3 text-[10px] font-bold uppercase tracking-[.15em]">Pay & message us</h3><p class="mt-2 text-xs leading-6 text-zinc-500">Pay via PayShap, then send your order and proof of payment on WhatsApp.</p></article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="mt-8 border-t border-black/5 bg-white">
+    <div class="mx-auto flex max-w-7xl flex-col gap-8 px-5 py-9 sm:flex-row sm:items-center sm:justify-between lg:px-8">
+      <a href="#" class="flex items-center gap-3">
+        <svg viewBox="0 0 48 48" class="h-10 w-10" aria-hidden="true"><path fill="#18181B" d="M5 42V6h9l10 14L34 6h9v36h-9V20L24 34 14 20v22z"/></svg>
+        <span><span class="block text-[10px] font-bold uppercase tracking-[.15em]">Mettle and Redolent</span><span class="mt-1 block text-[8px] uppercase tracking-[.25em] text-zinc-500">The Art of Expression</span></span>
+      </a>
+      <div class="text-[9px] uppercase tracking-[.15em] text-zinc-500">Hazyview, Mpumalanga, South Africa</div>
+      <div class="flex flex-wrap gap-x-5 gap-y-3 text-[9px] font-semibold uppercase tracking-[.12em]">
+        <a href="https://www.tiktok.com/@mettleandredolent" target="_blank" rel="noreferrer" class="hover:text-zinc-500">TikTok</a>
+        <a href="https://www.facebook.com/profile.php?id=100081925538863" target="_blank" rel="noreferrer" class="hover:text-zinc-500">Facebook</a>
+        <a href="https://wa.me/27648072693" target="_blank" rel="noreferrer" class="hover:text-zinc-500">WhatsApp</a>
+        <a href="admin.html" class="text-zinc-400 hover:text-ink">Admin</a>
+      </div>
+    </div>
+  </footer>
+
+  <div id="drawer-overlay" class="drawer-backdrop fixed inset-0 z-40 hidden" aria-hidden="true"></div>
+  <aside id="bag-drawer" class="fixed inset-y-0 right-0 z-50 flex w-full max-w-xl translate-x-full flex-col bg-porcelain shadow-2xl transition-transform duration-300" aria-label="Shopping bag" aria-hidden="true">
+    <div class="flex items-center justify-between border-b border-black/10 px-5 py-5 sm:px-7">
+      <div><p class="eyebrow text-[9px] font-semibold uppercase text-zinc-500">Your selection</p><h2 class="mt-1 font-editorial text-4xl">Shopping bag</h2></div>
+      <button id="bag-close" class="rounded-xl border border-black/10 px-4 py-3 text-xs" aria-label="Close shopping bag">Close</button>
+    </div>
+    <div id="bag-items" class="no-scrollbar flex-1 overflow-y-auto px-5 py-4 sm:px-7"></div>
+    <div id="checkout-area" class="border-t border-black/10 bg-white px-5 py-5 sm:px-7"></div>
+  </aside>
+
+  <div id="notes-modal" class="fixed inset-0 z-[60] hidden items-center justify-center bg-black/50 p-4" role="dialog" aria-modal="true" aria-labelledby="notes-title">
+    <div class="w-full max-w-lg rounded-2xl bg-porcelain p-6 shadow-2xl sm:p-8">
+      <div class="flex items-start justify-between gap-4"><div><p class="eyebrow text-[9px] font-semibold uppercase text-zinc-500">Olfactory notes</p><h2 id="notes-title" class="mt-2 font-editorial text-4xl"></h2></div><button id="notes-close" class="rounded-xl border border-black/10 px-3 py-2 text-xs">Close</button></div>
+      <div id="notes-content" class="mt-6 space-y-4 text-xs leading-6 text-zinc-600"></div>
+    </div>
+  </div>
+
+  <script>
+    // Add your Supabase project URL and public anon key from Project Settings > API.
+    const SUPABASE_URL = 'https://YOUR_PROJECT_ID.supabase.co';
+    const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
+
+    const FALLBACK_PRODUCTS = [
+      { id: 'hallucinations', name: 'Hallucinations', volume: '50ml Premium-Blend Parfum', price: 450, stock_count: 12, in_stock: true, image_url: 'https://images.unsplash.com/photo-1594035910387-fea47794261f?auto=format&fit=crop&w=1000&q=85', top_notes: 'Bergamot, Pink Pepper, Cardamom', heart_notes: 'Iris, Incense, Cashmere Wood', base_notes: 'White Amber, Sandalwood, Skin Musk', description: 'A luminous, enveloping composition with a confident trail and a softly sensual finish.' },
+      { id: 'oud-passion', name: 'Oud Passion', volume: '50ml Eau de Parfum', price: 380, stock_count: 12, in_stock: true, image_url: 'https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?auto=format&fit=crop&w=1000&q=85', top_notes: 'Passion Fruit, Saffron', heart_notes: 'Damask Rose, Patchouli', base_notes: 'Agarwood Oud, Leather, Amber, Vanilla', description: 'A vivid meeting of ripe fruit, velvety rose and rich oud.' },
+      { id: 'alpha-magnetism', name: 'Alpha Magnetism', volume: '50ml Eau de Parfum', price: 350, stock_count: 12, in_stock: true, image_url: 'https://images.unsplash.com/photo-1590736969955-71cc94901144?auto=format&fit=crop&w=1000&q=85', top_notes: 'Grapefruit, Black Pepper, Elemi', heart_notes: 'Lavender, Vetiver, Tonka Bean', base_notes: 'Cedarwood, Ambroxan, Dark Musk', description: 'Fresh aromatic notes meet a warm, magnetic woody base.' },
+      { id: 'blue-allure', name: 'Blue Allure', volume: '50ml Eau de Parfum', price: 320, stock_count: 12, in_stock: true, image_url: 'https://images.unsplash.com/photo-1595425970377-c9703cf48b6d?auto=format&fit=crop&w=1000&q=85', top_notes: 'Calabrian Bergamot, Mint, Lemon Zest', heart_notes: 'Ginger, Nutmeg, Jasmine', base_notes: 'Incense, Cedarwood, White Musk', description: 'Bright citrus and cool herbs settle into a clean, quietly captivating finish.' },
+      { id: 'i-am-it', name: 'I AM IT', volume: '50ml Eau de Parfum', price: 280, stock_count: 12, in_stock: true, image_url: 'https://images.unsplash.com/photo-1594035910387-fea47794261f?auto=format&fit=crop&w=1000&q=85', top_notes: 'Saffron, Spun Sugar', heart_notes: 'Damask Rose, Agarwood Oud', base_notes: 'Warm Vanilla, White Musk', description: 'A modern statement of sweet saffron, rose and comforting vanilla.' },
+      { id: 'egoist', name: 'Egoist', volume: '100ml Extrait de Parfum', price: 1200, stock_count: 8, in_stock: true, image_url: 'https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?auto=format&fit=crop&w=1000&q=85', top_notes: 'Mandarin, Rosewood, Coriander', heart_notes: 'Cinnamon, Damask Rose, Carnation', base_notes: 'Sandalwood, Vanilla, Amber, Tobacco', description: 'A richly layered extrait, composed for an unmistakable and enduring presence.' }
+    ];
+    const DEFAULT_SETTINGS = {
+      announcement_text: 'Crafted in Hazyview • Flat-Rate R150 Courier Nationwide • PayShap Accepted',
+      payshap_id: '064 807 2693',
+      account_holder: 'Mettle and Redolent',
+      bank_name: '',
+      whatsapp_number: '27648072693',
+      shipping_flat_rate: 150,
+      hero_image_url: ''
+    };
+    const hasSupabaseConfig = /^https:\/\/.+\.supabase\.co$/.test(SUPABASE_URL) && !SUPABASE_URL.includes('YOUR_PROJECT') && SUPABASE_ANON_KEY !== 'YOUR_SUPABASE_ANON_KEY';
+    const supabaseClient = hasSupabaseConfig && window.supabase ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
+    let products = FALLBACK_PRODUCTS.map(product => ({ ...product }));
+    let settings = { ...DEFAULT_SETTINGS };
+    let bag = readBag();
+    let activeOrder = null;
+
+    function escapeHTML(value) {
+      return String(value == null ? '' : value).replace(/[&<>"']/g, character => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[character]);
+    }
+    function zar(value) { return 'R' + Number(value || 0).toLocaleString('en-ZA'); }
+    function readBag() {
+      try {
+        const saved = JSON.parse(localStorage.getItem('mr-bag') || '{}');
+        return saved && typeof saved === 'object' && !Array.isArray(saved) ? saved : {};
+      } catch (error) {
+        console.warn('Saved bag could not be read.', error);
+        return {};
+      }
+    }
+    function saveBag() { localStorage.setItem('mr-bag', JSON.stringify(bag)); }
+    function bagQuantity() { return Object.values(bag).reduce((sum, quantity) => sum + Number(quantity || 0), 0); }
+    function subtotal() {
+      return Object.entries(bag).reduce((sum, [id, quantity]) => {
+        const product = products.find(item => item.id === id);
+        return sum + (product ? product.price * Number(quantity) : 0);
+      }, 0);
+    }
+    function setWhatsAppLinks() {
+      const number = settings.whatsapp_number || DEFAULT_SETTINGS.whatsapp_number;
+      ['header-whatsapp', 'hero-whatsapp', 'mobile-whatsapp'].forEach(id => document.getElementById(id).href = 'https://wa.me/' + encodeURIComponent(number));
+    }
+    function toggleMobileNavigation(forceClose) {
+      const menu = document.getElementById('mobile-navigation');
+      const button = document.getElementById('mobile-menu-toggle');
+      const shouldOpen = forceClose === undefined ? menu.classList.contains('hidden') : !forceClose;
+      menu.classList.toggle('hidden', !shouldOpen);
+      button.setAttribute('aria-expanded', String(shouldOpen));
+      button.setAttribute('aria-label', shouldOpen ? 'Close navigation menu' : 'Open navigation menu');
+    }
+    function productCard(product) {
+      const available = Number(product.stock_count) > 0;
+      return `<article class="overflow-hidden rounded-2xl border border-black/5 bg-white">
+        <div class="relative aspect-[4/3] overflow-hidden bg-pearl"><img src="${escapeHTML(product.image_url || '')}" alt="${escapeHTML(product.name)} perfume" loading="lazy" class="h-full w-full object-cover transition duration-500 hover:scale-[1.03]" onerror="this.src='https://images.unsplash.com/photo-1594035910387-fea47794261f?auto=format&fit=crop&w=1000&q=85'">
+          <span class="absolute left-4 top-4 rounded-full ${available ? 'bg-saffronwash text-ink' : 'bg-ink text-white'} px-3 py-2 text-[8px] font-semibold uppercase tracking-[.12em]">${available ? 'In Stock (' + Number(product.stock_count) + ')' : 'Sold Out'}</span>
+        </div>
+        <div class="p-5"><div class="flex items-start justify-between gap-3"><div><h3 class="font-editorial text-3xl leading-none">${escapeHTML(product.name)}</h3><p class="mt-2 text-[9px] uppercase tracking-[.12em] text-zinc-500">${escapeHTML(product.volume)}</p></div><p class="shrink-0 text-sm font-semibold">${zar(product.price)}</p></div>
+          <div class="mt-5 flex gap-2"><button data-notes="${escapeHTML(product.id)}" class="flex-1 rounded-xl border border-ink/15 px-3 py-3 text-[9px] font-semibold uppercase tracking-[.12em] transition hover:bg-pearl">Notes</button><button data-add="${escapeHTML(product.id)}" ${available ? '' : 'disabled'} class="flex-1 rounded-xl bg-ink px-3 py-3 text-[9px] font-semibold uppercase tracking-[.12em] text-white transition hover:bg-zinc-700 disabled:cursor-not-allowed disabled:bg-zinc-300">Add To Bag</button></div>
+        </div>
+      </article>`;
+    }
+    function renderProducts() {
+      document.getElementById('product-grid').innerHTML = products.map(productCard).join('');
+      document.getElementById('product-grid').querySelectorAll('[data-add]').forEach(button => button.addEventListener('click', () => addToBag(button.dataset.add)));
+      document.getElementById('product-grid').querySelectorAll('[data-notes]').forEach(button => button.addEventListener('click', () => openNotes(button.dataset.notes)));
+    }
+    function openNotes(id) {
+      const product = products.find(item => item.id === id);
+      if (!product) return;
+      document.getElementById('notes-title').textContent = product.name;
+      document.getElementById('notes-content').innerHTML = [
+        ['Top', product.top_notes], ['Heart', product.heart_notes], ['Base', product.base_notes]
+      ].map(([label, notes]) => `<p><span class="mr-2 font-semibold uppercase tracking-[.12em] text-ink">${label}</span>${escapeHTML(notes || '—')}</p>`).join('') +
+        `<p class="border-t border-black/10 pt-4">${escapeHTML(product.description || '')}</p>`;
+      const modal = document.getElementById('notes-modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+    function closeNotes() {
+      const modal = document.getElementById('notes-modal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+    function addToBag(id) {
+      const product = products.find(item => item.id === id);
+      if (!product || Number(product.stock_count) < 1) return;
+      bag[id] = Math.min(Number(bag[id] || 0) + 1, Number(product.stock_count));
+      saveBag();
+      renderBag();
+      openBag();
+    }
+    function changeQuantity(id, amount) {
+      const product = products.find(item => item.id === id);
+      if (!product) return;
+      const next = Number(bag[id] || 0) + amount;
+      if (next < 1) delete bag[id];
+      else bag[id] = Math.min(next, Number(product.stock_count));
+      activeOrder = null;
+      saveBag();
+      renderBag();
+    }
+    function renderBag() {
+      document.getElementById('bag-count').textContent = bagQuantity();
+      const rows = Object.entries(bag).map(([id, quantity]) => {
+        const product = products.find(item => item.id === id);
+        return product ? `<div class="flex gap-4 border-b border-black/10 py-4"><img src="${escapeHTML(product.image_url || '')}" alt="" class="h-20 w-20 rounded-xl bg-pearl object-cover"><div class="min-w-0 flex-1"><div class="flex justify-between gap-3"><div><h3 class="font-editorial text-2xl">${escapeHTML(product.name)}</h3><p class="mt-1 text-[9px] uppercase tracking-[.1em] text-zinc-500">${escapeHTML(product.volume)}</p></div><span class="text-xs font-semibold">${zar(product.price * quantity)}</span></div><div class="mt-3 flex items-center gap-3"><button data-minus="${escapeHTML(id)}" class="h-8 w-8 rounded-lg border border-black/10 text-sm" aria-label="Decrease quantity">−</button><span class="text-xs">${quantity}</span><button data-plus="${escapeHTML(id)}" class="h-8 w-8 rounded-lg border border-black/10 text-sm" aria-label="Increase quantity">+</button></div></div></div>` : '';
+      }).join('');
+      document.getElementById('bag-items').innerHTML = rows || '<div class="py-12 text-center"><p class="font-editorial text-3xl">Your bag is waiting.</p><p class="mt-2 text-xs text-zinc-500">Explore the collection and find your expression.</p></div>';
+      document.querySelectorAll('[data-minus]').forEach(button => button.addEventListener('click', () => changeQuantity(button.dataset.minus, -1)));
+      document.querySelectorAll('[data-plus]').forEach(button => button.addEventListener('click', () => changeQuantity(button.dataset.plus, 1)));
+      const count = bagQuantity();
+      const ship = Number(settings.shipping_flat_rate ?? 150);
+      const total = subtotal() + (count ? ship : 0);
+      const checkout = document.getElementById('checkout-area');
+      if (!count) {
+        checkout.innerHTML = '<p class="text-xs text-zinc-500">Nationwide delivery available when you are ready.</p>';
+        return;
+      }
+      if (activeOrder) {
+        checkout.innerHTML = paymentCard(activeOrder);
+        const send = document.getElementById('send-whatsapp');
+        if (send) send.addEventListener('click', openOrderWhatsApp);
+        const newOrder = document.getElementById('new-order');
+        if (newOrder) newOrder.addEventListener('click', () => { activeOrder = null; renderBag(); });
+        return;
+      }
+      checkout.innerHTML = `<div class="mb-4 space-y-2 text-xs"><div class="flex justify-between"><span class="text-zinc-500">Subtotal</span><span>${zar(subtotal())}</span></div><div class="flex justify-between"><span class="text-zinc-500">Nationwide courier</span><span>${zar(ship)}</span></div><div class="flex justify-between border-t border-black/10 pt-3 text-sm font-semibold"><span>Total</span><span>${zar(total)}</span></div></div>
+        <form id="delivery-form" class="space-y-3">
+          <p class="eyebrow mb-2 text-[9px] font-semibold uppercase text-zinc-500">Delivery details</p>
+          <label class="sr-only" for="customer-name">Full Name</label><input id="customer-name" name="customerName" autocomplete="name" required maxlength="120" placeholder="Full Name" class="w-full rounded-xl border border-black/10 bg-porcelain px-4 py-3 text-xs outline-none focus:border-ink">
+          <label class="sr-only" for="customer-phone">WhatsApp / Cellphone Number</label><input id="customer-phone" name="customerPhone" autocomplete="tel" required maxlength="40" placeholder="WhatsApp / Cellphone Number" class="w-full rounded-xl border border-black/10 bg-porcelain px-4 py-3 text-xs outline-none focus:border-ink">
+          <label class="sr-only" for="street-address">Street Address & Unit / Complex</label><input id="street-address" name="streetAddress" autocomplete="address-line1" required maxlength="180" placeholder="Street Address & Unit / Complex" class="w-full rounded-xl border border-black/10 bg-porcelain px-4 py-3 text-xs outline-none focus:border-ink">
+          <div class="grid grid-cols-[1fr_110px] gap-3"><label class="sr-only" for="town">Town / City</label><input id="town" name="town" autocomplete="address-level2" required maxlength="100" placeholder="Town / City" class="w-full rounded-xl border border-black/10 bg-porcelain px-4 py-3 text-xs outline-none focus:border-ink"><label class="sr-only" for="postal-code">Postal Code</label><input id="postal-code" name="postalCode" autocomplete="postal-code" required maxlength="12" placeholder="Postal Code" class="w-full rounded-xl border border-black/10 bg-porcelain px-4 py-3 text-xs outline-none focus:border-ink"></div>
+          <p id="checkout-error" class="hidden rounded-xl bg-red-50 p-3 text-xs leading-5 text-red-800"></p>
+          <button id="place-order" type="submit" class="w-full rounded-xl bg-ink px-5 py-4 text-[9px] font-semibold uppercase tracking-[.15em] text-white transition hover:bg-zinc-700">Place Order & View PayShap Details</button>
+          ${supabaseClient ? '' : '<p class="text-center text-[9px] leading-5 text-zinc-400">Demo mode: connect Supabase keys to save orders online.</p>'}
+        </form>`;
+      document.getElementById('delivery-form').addEventListener('submit', submitOrder);
+    }
+    function paymentCard(order) {
+      return `<div class="rounded-2xl border-2 border-saffron bg-saffronwash p-5">
+        <p class="eyebrow text-[9px] font-bold uppercase">PayShap payment</p><p class="mt-2 text-xs leading-5">Pay the exact amount below, then send your order and proof of payment on WhatsApp.</p>
+        <dl class="mt-4 space-y-2 text-xs"><div class="flex justify-between gap-4"><dt class="text-zinc-600">ShapID</dt><dd class="font-semibold">${escapeHTML(order.payshap_id)}</dd></div><div class="flex justify-between gap-4"><dt class="text-zinc-600">Account holder</dt><dd class="text-right font-semibold">${escapeHTML(order.account_holder)}</dd></div>${order.bank_name ? `<div class="flex justify-between gap-4"><dt class="text-zinc-600">Bank</dt><dd class="font-semibold">${escapeHTML(order.bank_name)}</dd></div>` : ''}<div class="flex justify-between gap-4 border-t border-ink/10 pt-3"><dt>Amount due</dt><dd class="font-bold">${zar(order.total_zar)}</dd></div><div class="flex justify-between gap-4"><dt>Order reference</dt><dd class="font-bold">${escapeHTML(order.order_ref)}</dd></div></dl>
+        <p class="mt-3 text-[9px] leading-5 text-zinc-600">${order.persisted ? 'Your order has been recorded. Please complete PayShap payment.' : 'Supabase is not connected; order details are ready to send but were not saved online.'}</p>
+        <button id="send-whatsapp" class="mt-4 w-full rounded-xl bg-ink px-4 py-4 text-[9px] font-semibold uppercase tracking-[.12em] text-white transition hover:bg-zinc-700">Send Order &amp; POP on WhatsApp</button>
+        <button id="new-order" class="mt-3 w-full rounded-xl border border-ink/20 px-4 py-3 text-[9px] font-semibold uppercase tracking-[.12em]">Back to Bag</button>
+      </div>`;
+    }
+    function orderWhatsAppText(order) {
+      const lines = [
+        'Hello METTLE AND REDOLENT, I am sending my order and PayShap proof of payment.',
+        '', 'Order Reference: ' + order.order_ref, 'Items:',
+        ...order.items.map(item => `• ${item.quantity} × ${item.name} — ${zar(item.price * item.quantity)}`),
+        `Nationwide courier: ${zar(order.shipping)}`, `Total due: ${zar(order.total_zar)}`,
+        '', 'Delivery details:', order.customer_name, order.customer_phone, order.delivery_address,
+        '', 'I am attaching my PayShap Proof of Payment.'
+      ];
+      return lines.join('\n');
+    }
+    function openOrderWhatsApp() {
+      if (!activeOrder) return;
+      const number = settings.whatsapp_number || DEFAULT_SETTINGS.whatsapp_number;
+      window.open('https://wa.me/' + encodeURIComponent(number) + '?text=' + encodeURIComponent(orderWhatsAppText(activeOrder)), '_blank', 'noopener,noreferrer');
+    }
+    async function submitOrder(event) {
+      event.preventDefault();
+      const form = event.currentTarget;
+      const errorElement = document.getElementById('checkout-error');
+      const button = document.getElementById('place-order');
+      errorElement.classList.add('hidden');
+      if (!form.reportValidity()) return;
+      const currentItems = Object.entries(bag).map(([id, quantity]) => {
+        const product = products.find(item => item.id === id);
+        return product ? { id, name: product.name, quantity: Number(quantity), price: Number(product.price) } : null;
+      }).filter(Boolean);
+      if (!currentItems.length) return;
+      const unavailableItems = Object.entries(bag).filter(([id, quantity]) => {
+        const product = products.find(item => item.id === id);
+        return !product || Number(product.stock_count) < Number(quantity);
+      });
+      if (unavailableItems.length) {
+        errorElement.textContent = 'One or more selections are no longer available in the requested quantity. Please update your bag before placing the order.';
+        errorElement.classList.remove('hidden');
+        return;
+      }
+      const formData = new FormData(form);
+      const deliveryAddress = [formData.get('streetAddress'), formData.get('town'), formData.get('postalCode'), 'South Africa'].map(String).join(', ');
+      const order = {
+        order_ref: 'MR-' + Math.random().toString(36).slice(2, 6).toUpperCase(),
+        customer_name: String(formData.get('customerName')).trim(),
+        customer_phone: String(formData.get('customerPhone')).trim(),
+        delivery_address: deliveryAddress,
+        items: currentItems,
+        total_zar: subtotal() + Number(settings.shipping_flat_rate ?? 150),
+        payment_status: 'Pending PayShap',
+        shipping: Number(settings.shipping_flat_rate ?? 150),
+        payshap_id: settings.payshap_id || DEFAULT_SETTINGS.payshap_id,
+        account_holder: settings.account_holder || DEFAULT_SETTINGS.account_holder,
+        bank_name: settings.bank_name || ''
+      };
+      button.disabled = true;
+      button.textContent = 'Preparing your order…';
+      try {
+        if (supabaseClient) {
+          const { error } = await supabaseClient.from('orders').insert({
+            order_ref: order.order_ref, customer_name: order.customer_name,
+            customer_phone: order.customer_phone, delivery_address: order.delivery_address,
+            items: order.items, total_zar: order.total_zar, payment_status: order.payment_status
+          });
+          if (error) throw error;
+          order.persisted = true;
+        } else {
+          order.persisted = false;
+        }
+        activeOrder = order;
+        renderBag();
+      } catch (error) {
+        console.error('Order could not be saved.', error);
+        errorElement.textContent = 'We could not save your order. Please try again or contact us on WhatsApp. ' + (error.message || '');
+        errorElement.classList.remove('hidden');
+        button.disabled = false;
+        button.textContent = 'Place Order & View PayShap Details';
+      }
+    }
+    function openBag() {
+      document.getElementById('drawer-overlay').classList.remove('hidden');
+      document.getElementById('bag-drawer').classList.remove('translate-x-full');
+      document.getElementById('bag-drawer').setAttribute('aria-hidden', 'false');
+      document.body.classList.add('overflow-hidden');
+    }
+    function closeBag() {
+      document.getElementById('drawer-overlay').classList.add('hidden');
+      document.getElementById('bag-drawer').classList.add('translate-x-full');
+      document.getElementById('bag-drawer').setAttribute('aria-hidden', 'true');
+      document.body.classList.remove('overflow-hidden');
+    }
+    async function loadStore() {
+      if (!supabaseClient) return;
+      const [productsResult, settingsResult] = await Promise.all([
+        supabaseClient.from('products').select('*').order('name'),
+        supabaseClient.from('site_settings').select('*').eq('id', 1).maybeSingle()
+      ]);
+      if (productsResult.error) {
+        console.error('Products could not be loaded from Supabase; using built-in products.', productsResult.error);
+        const warning = document.getElementById('products-error');
+        warning.textContent = 'Showing the built-in collection because live products could not be loaded. ' + productsResult.error.message;
+        warning.classList.remove('hidden');
+      } else if (productsResult.data && productsResult.data.length) {
+        products = productsResult.data;
+      }
+      if (settingsResult.error) console.error('Store settings could not be loaded.', settingsResult.error);
+      else if (settingsResult.data) settings = { ...settings, ...settingsResult.data };
+      document.getElementById('announcement').textContent = settings.announcement_text || DEFAULT_SETTINGS.announcement_text;
+      if (settings.hero_image_url) document.getElementById('hero-image').src = settings.hero_image_url;
+      setWhatsAppLinks();
+      renderProducts();
+      renderBag();
+    }
+    document.getElementById('bag-open').addEventListener('click', openBag);
+    document.getElementById('bag-close').addEventListener('click', closeBag);
+    document.getElementById('drawer-overlay').addEventListener('click', closeBag);
+    document.getElementById('mobile-menu-toggle').addEventListener('click', () => toggleMobileNavigation());
+    document.querySelectorAll('#mobile-navigation a').forEach(link => link.addEventListener('click', () => toggleMobileNavigation(true)));
+    document.getElementById('notes-close').addEventListener('click', closeNotes);
+    document.getElementById('notes-modal').addEventListener('click', event => { if (event.target.id === 'notes-modal') closeNotes(); });
+    document.addEventListener('keydown', event => { if (event.key === 'Escape') { closeBag(); closeNotes(); } });
+    renderProducts();
+    renderBag();
+    loadStore().catch(error => {
+      console.error('Store initialization failed; built-in products remain available.', error);
+      const warning = document.getElementById('products-error');
+      warning.textContent = 'Live store data could not be loaded. The built-in product collection is available.';
+      warning.classList.remove('hidden');
+    });
+  </script>
+</body>
+</html>

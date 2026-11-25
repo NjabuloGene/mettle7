@@ -1,0 +1,423 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#FCFBFA">
+  <meta name="description" content="METTLE AND REDOLENT admin studio">
+  <title>Admin Studio — METTLE AND REDOLENT</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: { porcelain: '#FCFBFA', pearl: '#F3F1ED', ink: '#18181B', saffron: '#EAB308', saffronwash: '#FEF9C3' },
+          fontFamily: { editorial: ['Cormorant Garamond', 'serif'], sans: ['Montserrat', 'sans-serif'] }
+        }
+      }
+    };
+  </script>
+  <style>body{background:#FCFBFA;color:#18181B;font-family:Montserrat,sans-serif}.eyebrow{letter-spacing:.18em}input,textarea,select{outline:none}</style>
+</head>
+<body>
+  <div class="min-h-screen">
+    <header class="sticky top-0 z-30 border-b border-[#E2DFD9] bg-white/95 backdrop-blur">
+      <div class="mx-auto flex max-w-7xl items-center justify-between gap-4 px-5 py-4 lg:px-8">
+        <a href="index.html" class="flex items-center gap-3">
+          <svg viewBox="0 0 48 48" class="h-10 w-10" aria-hidden="true"><path fill="#18181B" d="M5 42V6h9l10 14L34 6h9v36h-9V20L24 34 14 20v22z"/></svg>
+          <span><span class="block font-editorial text-xl font-semibold uppercase tracking-[.12em]">Mettle and Redolent</span><span class="mt-1 block text-[8px] uppercase tracking-[.2em] text-zinc-500">The Art of Expression · Studio Inventory &amp; Order Manager</span></span>
+        </a>
+        <div class="flex items-center gap-3"><a href="index.html" class="rounded-xl border border-black/15 px-4 py-3 text-[9px] font-semibold uppercase tracking-[.13em]">View Storefront</a><button id="sign-out" class="hidden rounded-xl bg-ink px-4 py-3 text-[9px] font-semibold uppercase tracking-[.13em] text-white">Sign Out</button></div>
+      </div>
+    </header>
+    <main class="mx-auto max-w-7xl px-5 py-8 sm:py-12 lg:px-8">
+      <section id="config-warning" class="mb-6 hidden rounded-2xl border border-saffron bg-saffronwash p-5 text-xs leading-6 text-zinc-700"></section>
+      <section id="login-panel" class="mx-auto max-w-md rounded-3xl border border-[#E2DFD9] bg-white p-6 shadow-sm sm:p-9">
+        <div class="text-center"><span class="inline-flex rounded-full bg-saffronwash px-3 py-2 text-[9px] font-semibold uppercase tracking-[.18em]">Admin Access</span><h2 class="mt-4 font-editorial text-4xl">Sign In to Studio</h2><p class="mt-2 text-[10px] leading-5 text-zinc-500">Manage live perfume stock, bottle photos, and PayShap orders.</p></div>
+        <form id="login-form" class="mt-6 space-y-4">
+          <label class="block text-[9px] font-semibold uppercase tracking-[.12em]" for="login-email">Admin Email</label><input id="login-email" type="email" autocomplete="username" required placeholder="you@mettleandredolent.co.za" class="mt-2 w-full rounded-xl border border-[#E2DFD9] bg-pearl/40 px-4 py-3 text-xs focus:border-ink focus:bg-white">
+          <label class="block text-[9px] font-semibold uppercase tracking-[.12em]" for="login-password">Password</label><input id="login-password" type="password" autocomplete="current-password" required placeholder="••••••••" class="mt-2 w-full rounded-xl border border-[#E2DFD9] bg-pearl/40 px-4 py-3 text-xs focus:border-ink focus:bg-white">
+          <p id="login-error" class="hidden rounded-xl bg-red-50 p-3 text-xs leading-5 text-red-800"></p>
+          <button id="login-button" class="w-full rounded-xl bg-ink px-5 py-4 text-[9px] font-semibold uppercase tracking-[.18em] text-white transition hover:bg-black/85">Unlock Dashboard</button>
+        </form>
+      </section>
+
+      <section id="studio" class="hidden">
+        <div class="mb-8"><p class="eyebrow text-[9px] font-semibold uppercase text-zinc-500">Mettle and Redolent</p><h1 class="mt-2 font-editorial text-5xl sm:text-6xl">Admin Studio</h1></div>
+        <div id="notice" role="status" class="mb-5 hidden rounded-2xl p-4 text-xs leading-5"></div>
+        <div class="mb-6 flex flex-wrap items-center gap-2 border-b border-[#E2DFD9] pb-4">
+          <button data-tab="products" class="tab-button rounded-xl bg-ink px-5 py-3 text-[9px] font-semibold uppercase tracking-[.12em] text-white">Fragrances &amp; Photos</button>
+          <button data-tab="orders" class="tab-button rounded-xl px-5 py-3 text-[9px] font-semibold uppercase tracking-[.12em] text-zinc-600">Customer Orders</button>
+          <button data-tab="settings" class="tab-button rounded-xl px-5 py-3 text-[9px] font-semibold uppercase tracking-[.12em] text-zinc-600">Storefront Settings</button>
+        </div>
+        <section id="tab-products" class="tab-panel">
+          <div class="mb-5 flex flex-wrap items-end justify-between gap-4"><div><p class="eyebrow text-[9px] font-semibold uppercase text-zinc-500">Manage the collection</p><h2 class="mt-2 font-editorial text-4xl">Fragrances &amp; Photos</h2></div><button id="add-product-open" class="rounded-xl bg-ink px-5 py-4 text-[9px] font-semibold uppercase tracking-[.12em] text-white">+ Add New Perfume</button></div>
+          <div id="product-admin-list" class="grid gap-4 md:grid-cols-2"></div>
+        </section>
+        <section id="tab-orders" class="tab-panel hidden">
+          <div class="mb-5"><p class="eyebrow text-[9px] font-semibold uppercase text-zinc-500">Incoming orders</p><h2 class="mt-2 font-editorial text-4xl">Customer Orders</h2></div>
+          <div id="orders-list" class="space-y-4"></div>
+        </section>
+        <section id="tab-settings" class="tab-panel hidden">
+          <div class="mb-5"><p class="eyebrow text-[9px] font-semibold uppercase text-zinc-500">Your storefront</p><h2 class="mt-2 font-editorial text-4xl">Storefront Settings</h2></div>
+          <form id="settings-form" class="grid gap-6 rounded-3xl bg-pearl p-5 sm:p-8 lg:grid-cols-2">
+            <div class="lg:col-span-2"><label for="hero-upload" class="text-[9px] font-semibold uppercase tracking-[.12em]">Hero Banner Photo</label><div class="mt-3 flex flex-wrap items-center gap-4"><img id="hero-preview" src="https://images.unsplash.com/photo-1594035910387-fea47794261f?auto=format&fit=crop&w=400&q=80" alt="Hero image preview" class="h-28 w-24 rounded-2xl bg-white object-cover"><input id="hero-upload" type="file" accept="image/*" class="max-w-full text-xs"></div></div>
+            <div class="lg:col-span-2"><label for="announcement-input" class="text-[9px] font-semibold uppercase tracking-[.12em]">Announcement Bar Text</label><input id="announcement-input" maxlength="240" class="mt-2 w-full rounded-xl border border-black/10 bg-white px-4 py-3 text-xs"></div>
+            <div><label for="payshap-input" class="text-[9px] font-semibold uppercase tracking-[.12em]">PayShap ShapID</label><input id="payshap-input" maxlength="80" class="mt-2 w-full rounded-xl border border-black/10 bg-white px-4 py-3 text-xs"></div>
+            <div><label for="holder-input" class="text-[9px] font-semibold uppercase tracking-[.12em]">Account Holder</label><input id="holder-input" maxlength="120" class="mt-2 w-full rounded-xl border border-black/10 bg-white px-4 py-3 text-xs"></div>
+            <div><label for="bank-input" class="text-[9px] font-semibold uppercase tracking-[.12em]">Bank Name</label><input id="bank-input" maxlength="120" class="mt-2 w-full rounded-xl border border-black/10 bg-white px-4 py-3 text-xs"></div>
+            <div><label for="shipping-input" class="text-[9px] font-semibold uppercase tracking-[.12em]">Flat Shipping Rate (R)</label><input id="shipping-input" type="number" min="0" step="1" required class="mt-2 w-full rounded-xl border border-black/10 bg-white px-4 py-3 text-xs"></div>
+            <div><label for="whatsapp-input" class="text-[9px] font-semibold uppercase tracking-[.12em]">WhatsApp Business Number (international, digits only)</label><input id="whatsapp-input" maxlength="20" inputmode="numeric" class="mt-2 w-full rounded-xl border border-black/10 bg-white px-4 py-3 text-xs"></div>
+            <div class="flex items-end"><button class="w-full rounded-xl bg-ink px-5 py-4 text-[9px] font-semibold uppercase tracking-[.12em] text-white">Save Storefront Settings</button></div>
+          </form>
+        </section>
+      </section>
+    </main>
+  </div>
+
+  <div id="product-modal" class="fixed inset-0 z-40 hidden items-center justify-center overflow-y-auto bg-black/50 p-4" role="dialog" aria-modal="true" aria-labelledby="product-modal-title">
+    <form id="new-product-form" class="my-auto w-full max-w-2xl rounded-3xl bg-porcelain p-6 shadow-2xl sm:p-8">
+      <div class="flex items-start justify-between"><div><p class="eyebrow text-[9px] font-semibold uppercase text-zinc-500">Collection</p><h2 id="product-modal-title" class="mt-2 font-editorial text-4xl">Add New Perfume</h2></div><button type="button" id="add-product-close" class="rounded-xl border border-black/10 px-3 py-2 text-xs">Close</button></div>
+      <div class="mt-6 grid gap-4 sm:grid-cols-2">
+        <label class="text-[9px] font-semibold uppercase tracking-[.12em]">Name<input name="name" required maxlength="120" class="mt-2 w-full rounded-xl border border-black/10 bg-white px-4 py-3 text-xs"></label>
+        <label class="text-[9px] font-semibold uppercase tracking-[.12em]">Volume<input name="volume" required maxlength="100" placeholder="50ml Eau de Parfum" class="mt-2 w-full rounded-xl border border-black/10 bg-white px-4 py-3 text-xs"></label>
+        <label class="text-[9px] font-semibold uppercase tracking-[.12em]">Price (R)<input name="price" type="number" min="0" step="1" required class="mt-2 w-full rounded-xl border border-black/10 bg-white px-4 py-3 text-xs"></label>
+        <label class="text-[9px] font-semibold uppercase tracking-[.12em]">Stock Count<input name="stock_count" type="number" min="0" step="1" required value="0" class="mt-2 w-full rounded-xl border border-black/10 bg-white px-4 py-3 text-xs"></label>
+        <label class="text-[9px] font-semibold uppercase tracking-[.12em]">Top Notes<input name="top_notes" maxlength="300" class="mt-2 w-full rounded-xl border border-black/10 bg-white px-4 py-3 text-xs"></label>
+        <label class="text-[9px] font-semibold uppercase tracking-[.12em]">Heart Notes<input name="heart_notes" maxlength="300" class="mt-2 w-full rounded-xl border border-black/10 bg-white px-4 py-3 text-xs"></label>
+        <label class="text-[9px] font-semibold uppercase tracking-[.12em] sm:col-span-2">Base Notes<input name="base_notes" maxlength="300" class="mt-2 w-full rounded-xl border border-black/10 bg-white px-4 py-3 text-xs"></label>
+        <label class="text-[9px] font-semibold uppercase tracking-[.12em] sm:col-span-2">Description<textarea name="description" rows="3" maxlength="1000" class="mt-2 w-full rounded-xl border border-black/10 bg-white px-4 py-3 text-xs"></textarea></label>
+        <label class="text-[9px] font-semibold uppercase tracking-[.12em] sm:col-span-2">Product Photo<input name="image" type="file" accept="image/*" class="mt-2 block max-w-full text-xs"></label>
+      </div>
+      <p id="product-modal-error" class="mt-4 hidden rounded-xl bg-red-50 p-3 text-xs leading-5 text-red-800"></p>
+      <button id="add-product-submit" class="mt-5 w-full rounded-xl bg-ink px-5 py-4 text-[9px] font-semibold uppercase tracking-[.12em] text-white">Create Perfume</button>
+    </form>
+  </div>
+
+  <script>
+    // Use the same Supabase project URL and public anon key as index.html.
+    const SUPABASE_URL = 'https://YOUR_PROJECT_ID.supabase.co';
+    const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
+    const hasSupabaseConfig = /^https:\/\/.+\.supabase\.co$/.test(SUPABASE_URL) && !SUPABASE_URL.includes('YOUR_PROJECT') && SUPABASE_ANON_KEY !== 'YOUR_SUPABASE_ANON_KEY';
+    const supabaseClient = hasSupabaseConfig && window.supabase ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
+    let currentSession = null;
+    let productsCache = [];
+    let settingsCache = null;
+
+    function escapeHTML(value) {
+      return String(value == null ? '' : value).replace(/[&<>"']/g, character => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[character]);
+    }
+    function showNotice(message, isError) {
+      const notice = document.getElementById('notice');
+      notice.textContent = message;
+      notice.className = 'mb-5 rounded-2xl p-4 text-xs leading-5 ' + (isError ? 'bg-red-50 text-red-800' : 'bg-saffronwash text-zinc-800');
+    }
+    function hideNotice() { document.getElementById('notice').classList.add('hidden'); }
+    function showLoginError(message) {
+      const element = document.getElementById('login-error');
+      element.textContent = message;
+      element.classList.remove('hidden');
+    }
+    function zar(value) { return 'R' + Number(value || 0).toLocaleString('en-ZA'); }
+    function slugify(value) {
+      return value.toLowerCase().trim().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 80);
+    }
+    async function uploadImage(file, prefix) {
+      if (!file) return null;
+      if (!file.type.startsWith('image/')) throw new Error('Please choose an image file.');
+      if (file.size > 10 * 1024 * 1024) throw new Error('Image files must be 10 MB or smaller.');
+      const extension = (file.name.split('.').pop() || 'jpg').toLowerCase().replace(/[^a-z0-9]/g, '') || 'jpg';
+      const path = `${prefix}/${Date.now()}-${crypto.randomUUID()}.${extension}`;
+      const { error } = await supabaseClient.storage.from('perfumes').upload(path, file, { upsert: false, contentType: file.type });
+      if (error) throw error;
+      const { data } = supabaseClient.storage.from('perfumes').getPublicUrl(path);
+      return data.publicUrl;
+    }
+    async function loadProducts() {
+      const { data, error } = await supabaseClient.from('products').select('*').order('name');
+      if (error) throw error;
+      productsCache = data || [];
+      renderProducts();
+    }
+    function renderProducts() {
+      const list = document.getElementById('product-admin-list');
+      if (!productsCache.length) {
+        list.innerHTML = '<div class="rounded-2xl bg-pearl p-8 text-center text-xs text-zinc-500 md:col-span-2">No perfumes yet. Add your first product to get started.</div>';
+        return;
+      }
+      list.innerHTML = productsCache.map(product => `<form data-product-form="${escapeHTML(product.id)}" class="rounded-2xl border border-black/5 bg-white p-4 sm:p-5">
+        <div class="mb-4 flex flex-wrap items-center gap-3">
+          <img src="${escapeHTML(product.image_url || '')}" alt="${escapeHTML(product.name)}" class="h-20 w-20 rounded-xl bg-pearl object-cover" onerror="this.src='https://images.unsplash.com/photo-1594035910387-fea47794261f?auto=format&fit=crop&w=300&q=80'">
+          <div class="min-w-0 flex-1"><h3 class="font-editorial text-3xl">${escapeHTML(product.name)}</h3><p class="text-[9px] uppercase tracking-[.12em] text-zinc-500">${escapeHTML(product.id)}</p></div>
+          <label class="rounded-xl border border-black/15 px-4 py-3 text-center text-[9px] font-semibold uppercase tracking-[.1em]">Change Photo<input type="file" accept="image/*" data-upload-for="${escapeHTML(product.id)}" class="sr-only"></label>
+        </div>
+        <div class="grid gap-3 sm:grid-cols-2">
+          <label class="text-[8px] font-semibold uppercase tracking-[.12em]">Name<input name="name" required maxlength="120" value="${escapeHTML(product.name)}" class="mt-2 w-full rounded-xl border border-black/10 bg-porcelain px-3 py-3 text-xs"></label>
+          <label class="text-[8px] font-semibold uppercase tracking-[.12em]">Price (R)<input name="price" type="number" min="0" step="1" required value="${Number(product.price)}" class="mt-2 w-full rounded-xl border border-black/10 bg-porcelain px-3 py-3 text-xs"></label>
+          <label class="text-[8px] font-semibold uppercase tracking-[.12em]">Stock Count<input name="stock_count" type="number" min="0" step="1" required value="${Number(product.stock_count)}" class="mt-2 w-full rounded-xl border border-black/10 bg-porcelain px-3 py-3 text-xs"></label>
+          <label class="text-[8px] font-semibold uppercase tracking-[.12em]">Volume<input name="volume" required maxlength="100" value="${escapeHTML(product.volume)}" class="mt-2 w-full rounded-xl border border-black/10 bg-porcelain px-3 py-3 text-xs"></label>
+          <label class="text-[8px] font-semibold uppercase tracking-[.12em]">Top Notes<input name="top_notes" maxlength="300" value="${escapeHTML(product.top_notes)}" class="mt-2 w-full rounded-xl border border-black/10 bg-porcelain px-3 py-3 text-xs"></label>
+          <label class="text-[8px] font-semibold uppercase tracking-[.12em]">Heart Notes<input name="heart_notes" maxlength="300" value="${escapeHTML(product.heart_notes)}" class="mt-2 w-full rounded-xl border border-black/10 bg-porcelain px-3 py-3 text-xs"></label>
+          <label class="text-[8px] font-semibold uppercase tracking-[.12em]">Base Notes<input name="base_notes" maxlength="300" value="${escapeHTML(product.base_notes)}" class="mt-2 w-full rounded-xl border border-black/10 bg-porcelain px-3 py-3 text-xs"></label>
+          <label class="text-[8px] font-semibold uppercase tracking-[.12em]">Description<input name="description" maxlength="1000" value="${escapeHTML(product.description)}" class="mt-2 w-full rounded-xl border border-black/10 bg-porcelain px-3 py-3 text-xs"></label>
+        </div>
+        <div class="mt-4 flex flex-wrap justify-end gap-2"><button type="button" data-delete="${escapeHTML(product.id)}" class="rounded-xl border border-red-200 px-4 py-3 text-[9px] font-semibold uppercase tracking-[.1em] text-red-700">Delete</button><button class="rounded-xl bg-ink px-5 py-3 text-[9px] font-semibold uppercase tracking-[.12em] text-white">Save Changes</button></div>
+      </form>`).join('');
+      list.querySelectorAll('[data-product-form]').forEach(form => form.addEventListener('submit', saveProduct));
+      list.querySelectorAll('[data-upload-for]').forEach(input => input.addEventListener('change', changeProductPhoto));
+      list.querySelectorAll('[data-delete]').forEach(button => button.addEventListener('click', deleteProduct));
+    }
+    async function saveProduct(event) {
+      event.preventDefault();
+      const form = event.currentTarget;
+      const id = form.dataset.productForm;
+      const data = new FormData(form);
+      const updates = {
+        name: String(data.get('name')).trim(), price: Number(data.get('price')),
+        stock_count: Number(data.get('stock_count')), volume: String(data.get('volume')).trim(),
+        top_notes: String(data.get('top_notes') || '').trim(), heart_notes: String(data.get('heart_notes') || '').trim(),
+        base_notes: String(data.get('base_notes') || '').trim(), description: String(data.get('description') || '').trim()
+      };
+      const button = form.querySelector('button[type="submit"]');
+      button.disabled = true;
+      try {
+        const { error } = await supabaseClient.from('products').update(updates).eq('id', id);
+        if (error) throw error;
+        showNotice('Saved changes to ' + updates.name + '.', false);
+        await loadProducts();
+      } catch (error) { showNotice('Could not save product: ' + error.message, true); }
+      finally { button.disabled = false; }
+    }
+    async function changeProductPhoto(event) {
+      const input = event.currentTarget;
+      const file = input.files && input.files[0];
+      if (!file) return;
+      const id = input.dataset.uploadFor;
+      try {
+        showNotice('Uploading product photo…', false);
+        const imageUrl = await uploadImage(file, 'products/' + slugify(id));
+        const { error } = await supabaseClient.from('products').update({ image_url: imageUrl }).eq('id', id);
+        if (error) throw error;
+        showNotice('Product photo updated.', false);
+        await loadProducts();
+      } catch (error) {
+        showNotice('Could not update product photo: ' + error.message, true);
+        input.value = '';
+      }
+    }
+    async function deleteProduct(event) {
+      const id = event.currentTarget.dataset.delete;
+      const product = productsCache.find(item => item.id === id);
+      if (!product || !window.confirm(`Delete "${product.name}"? This cannot be undone.`)) return;
+      try {
+        const { error } = await supabaseClient.from('products').delete().eq('id', id);
+        if (error) throw error;
+        showNotice('Deleted ' + product.name + '.', false);
+        await loadProducts();
+      } catch (error) { showNotice('Could not delete product: ' + error.message, true); }
+    }
+    function openProductModal() {
+      const modal = document.getElementById('product-modal');
+      document.getElementById('product-modal-error').classList.add('hidden');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+    function closeProductModal() {
+      const modal = document.getElementById('product-modal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+    async function createProduct(event) {
+      event.preventDefault();
+      const form = event.currentTarget;
+      const errorText = document.getElementById('product-modal-error');
+      const button = document.getElementById('add-product-submit');
+      errorText.classList.add('hidden');
+      const formData = new FormData(form);
+      const name = String(formData.get('name') || '').trim();
+      const id = slugify(name);
+      if (!id) { errorText.textContent = 'Enter a name that can be used as a product identifier.'; errorText.classList.remove('hidden'); return; }
+      if (productsCache.some(product => product.id === id)) { errorText.textContent = 'A perfume with this name already exists. Please choose another name.'; errorText.classList.remove('hidden'); return; }
+      button.disabled = true;
+      button.textContent = 'Creating…';
+      try {
+        const image = formData.get('image');
+        const imageUrl = image && image.size ? await uploadImage(image, 'products/' + id) : null;
+        const product = {
+          id, name, volume: String(formData.get('volume')).trim(),
+          price: Number(formData.get('price')), stock_count: Number(formData.get('stock_count')),
+          image_url: imageUrl, top_notes: String(formData.get('top_notes') || '').trim(),
+          heart_notes: String(formData.get('heart_notes') || '').trim(),
+          base_notes: String(formData.get('base_notes') || '').trim(),
+          description: String(formData.get('description') || '').trim()
+        };
+        const { error } = await supabaseClient.from('products').insert(product);
+        if (error) throw error;
+        form.reset();
+        closeProductModal();
+        showNotice('Added ' + name + ' to the collection.', false);
+        await loadProducts();
+      } catch (error) {
+        console.error('Could not create product.', error);
+        errorText.textContent = 'Could not create perfume: ' + error.message;
+        errorText.classList.remove('hidden');
+      } finally {
+        button.disabled = false;
+        button.textContent = 'Create Perfume';
+      }
+    }
+    async function loadOrders() {
+      const list = document.getElementById('orders-list');
+      list.innerHTML = '<div class="rounded-2xl bg-pearl p-6 text-xs text-zinc-500">Loading orders…</div>';
+      const { data, error } = await supabaseClient.from('orders').select('*').order('created_at', { ascending: false });
+      if (error) throw error;
+      if (!data || !data.length) {
+        list.innerHTML = '<div class="rounded-2xl bg-pearl p-8 text-center text-xs text-zinc-500">No customer orders yet.</div>';
+        return;
+      }
+      list.innerHTML = data.map(order => {
+        const items = Array.isArray(order.items) ? order.items : [];
+        return `<article class="rounded-2xl border border-black/5 bg-white p-5">
+          <div class="flex flex-wrap items-start justify-between gap-3"><div><p class="eyebrow text-[9px] font-bold uppercase">${escapeHTML(order.order_ref || 'Order')}</p><h3 class="mt-1 font-editorial text-3xl">${escapeHTML(order.customer_name)}</h3><p class="mt-1 text-[9px] text-zinc-500">${new Date(order.created_at).toLocaleString('en-ZA')}</p></div>
+            <label class="text-[8px] font-semibold uppercase tracking-[.12em]">Status<select data-order-status="${escapeHTML(order.id)}" class="mt-2 block rounded-xl border border-black/10 bg-porcelain px-3 py-3 text-[10px]"><option ${order.payment_status === 'Pending PayShap' ? 'selected' : ''}>Pending PayShap</option><option ${order.payment_status === 'Paid (PayShap)' ? 'selected' : ''}>Paid (PayShap)</option><option ${order.payment_status === 'Dispatched' ? 'selected' : ''}>Dispatched</option></select></label>
+          </div>
+          <div class="mt-4 grid gap-4 border-t border-black/5 pt-4 text-xs md:grid-cols-2"><div><p><span class="text-zinc-500">Phone:</span> ${escapeHTML(order.customer_phone)}</p><p class="mt-2 leading-5"><span class="text-zinc-500">Delivery:</span> ${escapeHTML(order.delivery_address)}</p></div><div><p class="font-semibold">Items</p><ul class="mt-1 space-y-1">${items.map(item => `<li>${Number(item.quantity) || 0} × ${escapeHTML(item.name)} — ${zar(Number(item.price) * Number(item.quantity))}</li>`).join('')}</ul><p class="mt-3 font-bold">Total: ${zar(order.total_zar)}</p></div></div>
+        </article>`;
+      }).join('');
+      list.querySelectorAll('[data-order-status]').forEach(select => select.addEventListener('change', updateOrderStatus));
+    }
+    async function updateOrderStatus(event) {
+      const select = event.currentTarget;
+      try {
+        const { error } = await supabaseClient.from('orders').update({ payment_status: select.value }).eq('id', select.dataset.orderStatus);
+        if (error) throw error;
+        showNotice('Order status updated.', false);
+      } catch (error) {
+        showNotice('Could not update order status: ' + error.message, true);
+        await loadOrders();
+      }
+    }
+    async function loadSettings() {
+      const { data, error } = await supabaseClient.from('site_settings').select('*').eq('id', 1).maybeSingle();
+      if (error) throw error;
+      settingsCache = data || { id: 1, announcement_text: '', payshap_id: '', account_holder: '', bank_name: '', whatsapp_number: '27648072693', shipping_flat_rate: 150, hero_image_url: '' };
+      document.getElementById('announcement-input').value = settingsCache.announcement_text || '';
+      document.getElementById('payshap-input').value = settingsCache.payshap_id || '';
+      document.getElementById('holder-input').value = settingsCache.account_holder || '';
+      document.getElementById('bank-input').value = settingsCache.bank_name || '';
+      document.getElementById('shipping-input').value = Number(settingsCache.shipping_flat_rate ?? 150);
+      document.getElementById('whatsapp-input').value = settingsCache.whatsapp_number || '';
+      if (settingsCache.hero_image_url) document.getElementById('hero-preview').src = settingsCache.hero_image_url;
+    }
+    async function uploadHeroPhoto(event) {
+      const file = event.currentTarget.files && event.currentTarget.files[0];
+      if (!file) return;
+      try {
+        showNotice('Uploading hero photo…', false);
+        const url = await uploadImage(file, 'hero');
+        const { error } = await supabaseClient.from('site_settings').update({ hero_image_url: url }).eq('id', 1);
+        if (error) throw error;
+        settingsCache = { ...(settingsCache || {}), hero_image_url: url };
+        document.getElementById('hero-preview').src = url;
+        showNotice('Hero photo updated.', false);
+      } catch (error) {
+        showNotice('Could not upload hero photo: ' + error.message, true);
+      }
+    }
+    async function saveSettings(event) {
+      event.preventDefault();
+      const form = event.currentTarget;
+      if (!form.reportValidity()) return;
+      const updates = {
+        id: 1,
+        announcement_text: document.getElementById('announcement-input').value.trim(),
+        payshap_id: document.getElementById('payshap-input').value.trim(),
+        account_holder: document.getElementById('holder-input').value.trim(),
+        bank_name: document.getElementById('bank-input').value.trim(),
+        shipping_flat_rate: Number(document.getElementById('shipping-input').value),
+        whatsapp_number: document.getElementById('whatsapp-input').value.replace(/\D/g, '')
+      };
+      try {
+        const { id, ...settingsToUpdate } = updates;
+        const { error } = await supabaseClient.from('site_settings').update(settingsToUpdate).eq('id', 1);
+        if (error) throw error;
+        settingsCache = { ...(settingsCache || {}), ...updates };
+        showNotice('Storefront settings saved.', false);
+      } catch (error) { showNotice('Could not save settings: ' + error.message, true); }
+    }
+    async function loadStudioData() {
+      hideNotice();
+      try {
+        await Promise.all([loadProducts(), loadSettings()]);
+      } catch (error) {
+        showNotice('Could not load studio data: ' + error.message, true);
+      }
+    }
+    function setActiveTab(tab) {
+      document.querySelectorAll('.tab-panel').forEach(panel => panel.classList.toggle('hidden', panel.id !== 'tab-' + tab));
+      document.querySelectorAll('.tab-button').forEach(button => {
+        const active = button.dataset.tab === tab;
+        button.classList.toggle('bg-ink', active);
+        button.classList.toggle('text-white', active);
+        button.classList.toggle('text-zinc-600', !active);
+      });
+      if (tab === 'orders' && currentSession) loadOrders().catch(error => showNotice('Could not load orders: ' + error.message, true));
+    }
+    function updateAuthUI(session) {
+      currentSession = session;
+      const signedIn = Boolean(session);
+      document.getElementById('login-panel').classList.toggle('hidden', signedIn);
+      document.getElementById('studio').classList.toggle('hidden', !signedIn);
+      document.getElementById('sign-out').classList.toggle('hidden', !signedIn);
+      if (signedIn) loadStudioData();
+    }
+    async function signIn(event) {
+      event.preventDefault();
+      if (!supabaseClient) return showLoginError('Add your Supabase project URL and anon key in admin.html before signing in.');
+      const button = document.getElementById('login-button');
+      button.disabled = true;
+      document.getElementById('login-error').classList.add('hidden');
+      try {
+        const email = document.getElementById('login-email').value.trim();
+        const password = document.getElementById('login-password').value;
+        const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
+        if (error) throw error;
+        updateAuthUI(data.session);
+      } catch (error) { showLoginError('Sign in failed: ' + error.message); }
+      finally { button.disabled = false; }
+    }
+    async function signOut() {
+      try {
+        const { error } = await supabaseClient.auth.signOut();
+        if (error) throw error;
+        updateAuthUI(null);
+      } catch (error) { showNotice('Could not sign out: ' + error.message, true); }
+    }
+    document.getElementById('login-form').addEventListener('submit', signIn);
+    document.getElementById('sign-out').addEventListener('click', signOut);
+    document.getElementById('settings-form').addEventListener('submit', saveSettings);
+    document.getElementById('hero-upload').addEventListener('change', uploadHeroPhoto);
+    document.getElementById('new-product-form').addEventListener('submit', createProduct);
+    document.getElementById('add-product-open').addEventListener('click', openProductModal);
+    document.getElementById('add-product-close').addEventListener('click', closeProductModal);
+    document.getElementById('product-modal').addEventListener('click', event => { if (event.target.id === 'product-modal') closeProductModal(); });
+    document.querySelectorAll('[data-tab]').forEach(button => button.addEventListener('click', () => setActiveTab(button.dataset.tab)));
+    document.addEventListener('keydown', event => { if (event.key === 'Escape') closeProductModal(); });
+    if (!supabaseClient) {
+      const warning = document.getElementById('config-warning');
+      warning.textContent = 'Connect this page to Supabase before use: replace SUPABASE_URL and SUPABASE_ANON_KEY in the script. Create an admin user in Supabase Authentication > Users. The anon key is intended for browser use; never put a service-role key here.';
+      warning.classList.remove('hidden');
+    } else {
+      supabaseClient.auth.getSession().then(({ data, error }) => {
+        if (error) showLoginError('Could not verify session: ' + error.message);
+        else updateAuthUI(data.session);
+      }).catch(error => showLoginError('Could not verify session: ' + error.message));
+      supabaseClient.auth.onAuthStateChange((_event, session) => updateAuthUI(session));
+    }
+  </script>
+</body>
+</html>
